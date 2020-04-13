@@ -9,25 +9,11 @@ class App extends Component {
     this.state = {
       isAddUser: true,
       AddBtn: "Add",
-      error: null,
+      error: false,
       response: {},
     };
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
-  }
-
-  onCreate() {
-    if (this.state.isAddUser) {
-      this.setState({
-        isAddUser: false,
-        AddBtn: "Edit",
-      });
-    } else {
-      this.setState({
-        isAddUser: true,
-        AddBtn: "Add",
-      });
-    }
   }
 
   onFormSubmit(data) {
@@ -64,12 +50,6 @@ class App extends Component {
         <div className="row">
           <div className="col s6">
             <AddUser onFormSubmit={this.onFormSubmit} />
-            <button
-              className="waves-effect waves-light btn right-align"
-              onClick={() => this.onCreate()}
-            >
-              {this.state.AddBtn}
-            </button>
             {this.state.error && <div>Error: {this.state.error.message}</div>}
           </div>
           <div className="col s6">

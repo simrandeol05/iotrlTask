@@ -11,13 +11,6 @@ class Users extends Component {
   }
 
   componentDidMount() {
-    // axios
-    //   .get("https://rademo.fleetconnect.io/apinode/task-users")
-    //   .then((res) => {
-    //     const users = res.data;
-    //     this.setState({ users });
-    //   });
-
     const apiUrl = "https://rademo.fleetconnect.io/apinode/task-users";
 
     fetch(apiUrl)

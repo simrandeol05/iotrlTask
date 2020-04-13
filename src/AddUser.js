@@ -1,14 +1,19 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 class AddUser extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      addBtnStr: "Add",
+      btnState: true,
+    };
     this.initialState = {
       name: "",
       email: "",
       role: "",
       password: "",
+      btnState: true,
+      addBtnStr: "Add",
     };
     this.state = this.initialState;
 
@@ -30,6 +35,12 @@ class AddUser extends Component {
     this.props.onFormSubmit(this.state);
     this.setState(this.initialState);
   }
+
+  changeBtn = () => {
+    this.setState({
+      addBtnStr: "Edit",
+    });
+  };
 
   render() {
     return (
@@ -76,6 +87,16 @@ class AddUser extends Component {
                 value={this.state.password}
                 onChange={this.handleChange}
               />
+            </div>
+            <div className="row">
+              <button
+                type="submit"
+                className="waves-effect waves-light btn right-align"
+                onClick={this.changeBtn}
+                value={this.state.addBtnStr}
+              >
+                {this.state.addBtnStr}
+              </button>
             </div>
           </form>
         </div>
