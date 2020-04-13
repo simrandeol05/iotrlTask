@@ -13,8 +13,9 @@ class Users extends Component {
   componentDidMount() {
     const apiUrl = "https://rademo.fleetconnect.io/apinode/task-users";
 
-    fetch(apiUrl)
-      .then((res) => res.json())
+    axios
+      .get(apiUrl)
+      .then((response) => response.data)
       .then(
         (result) => {
           this.setState({
@@ -22,12 +23,18 @@ class Users extends Component {
           });
         },
         (error) => {
-          this.setState({
-            error,
-          });
+          this.setState({ error });
         }
       );
   }
+
+  deleteUser = async (userId) => {
+    let apiEndpoint = "https://rademo.fleetconnect.io/apinode/task-user";
+    await axios.delete(apiEndpoint + "/" + userId);
+    const users = this.state.users.filter((user) => user._id !== userId);
+    this.setState({ users });
+  };
+
   render() {
     const { error, users } = this.state;
 
@@ -60,7 +67,10 @@ class Users extends Component {
                     </button>
                   </td>
                   <td>
-                    <button className="waves-effect waves-light btn right-align">
+                    <button
+                      className="waves-effect waves-light btn right-align"
+                      onClick={() => this.deleteUser(user._id)}
+                    >
                       <i className="material-icons">delete</i>
                     </button>
                   </td>

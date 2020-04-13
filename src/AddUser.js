@@ -3,25 +3,21 @@ import React, { Component } from "react";
 class AddUser extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      addBtnStr: "Add",
-      btnState: true,
-    };
-    this.initialState = {
       id: "",
       name: "",
       email: "",
       role: "",
       password: "",
-      btnState: true,
       addBtnStr: "Add",
+      btnState: true,
     };
     if (props.user) {
       this.state = props.user;
     } else {
-      this.state = this.initialState;
+      this.state = this.state;
     }
-    this.state = this.initialState;
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,13 +35,21 @@ class AddUser extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.onFormSubmit(this.state);
-    this.setState(this.initialState);
+    this.setState(this.state);
   }
 
   changeBtn = () => {
-    this.setState({
-      addBtnStr: "Edit",
-    });
+    if (this.state.btnState) {
+      this.setState({
+        addBtnStr: "Edit",
+        btnState: false,
+      });
+    } else {
+      this.setState({
+        addBtnStr: "Add",
+        btnState: true,
+      });
+    }
   };
 
   render() {
@@ -102,7 +106,6 @@ class AddUser extends Component {
                 type="submit"
                 className="waves-effect waves-light btn right-align"
                 onClick={this.changeBtn}
-                value={this.state.addBtnStr}
               >
                 {this.state.addBtnStr}
               </button>

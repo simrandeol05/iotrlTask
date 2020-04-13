@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Users from "./Users";
 import AddUser from "./AddUser";
+import axios from "axios";
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +20,12 @@ class App extends Component {
   }
 
   onFormSubmit(data) {
-    const apiUrl = "https://rademo.fleetconnect.io/apinode/task-user/insert";
+    let apiUrl;
+    if (this.state.isEditUser) {
+      apiUrl = "https://rademo.fleetconnect.io/apinode/task-user";
+    } else {
+      apiUrl = "https://rademo.fleetconnect.io/apinode/task-user/insert";
+    }
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -46,32 +52,28 @@ class App extends Component {
       );
   }
 
-  editUser = (userId) => {
-    const apiUrl = "https://rademo.fleetconnect.io/apinode/task-user";
-
-    const formData = new FormData();
-    formData.append("userId", userId);
+  editUser = (id) => {
+    //const apiUrl = "https://rademo.fleetconnect.io/apinode/task-user/";
 
     const options = {
-      method: "POST",
-      body: formData,
+      method: "post",
+      url:
+        "https://rademo.fleetconnect.io/apinode/task-user/5e86dbc436fa5931de124c62",
+      data: {
+        firstName: "Vijay Kumar",
+        password: "123123",
+      },
+      transformRequest: [
+        (data, headers) => {
+          // transform the data
+
+          return data;
+        },
+      ],
     };
 
-    fetch(apiUrl, options)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            user: result,
-            isEditUser: true,
-          });
-        },
-        (error) => {
-          this.setState({
-            error,
-          });
-        }
-      );
+    // send the request
+    axios(options);
   };
 
   render() {
