@@ -24,6 +24,12 @@
   color: white;
 }
 
+.textCenter {
+  text-align: center;
+}
+.tableClass {
+  float: right;
+}
 .App-link {
   color: #61dafb;
 }

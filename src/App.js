@@ -1,26 +1,85 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import Users from "./Users";
+import AddUser from "./AddUser";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isAddUser: true,
+      AddBtn: "Add",
+      error: null,
+      response: {},
+    };
+
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+  }
+
+  onCreate() {
+    if (this.state.isAddUser) {
+      this.setState({
+        isAddUser: false,
+        AddBtn: "Edit",
+      });
+    } else {
+      this.setState({
+        isAddUser: true,
+        AddBtn: "Add",
+      });
+    }
+  }
+
+  onFormSubmit(data) {
+    const apiUrl = "https://rademo.fleetconnect.io/apinode/task-user/insert";
+
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    const options = {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers,
+    };
+
+    fetch(apiUrl, options)
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            response: result,
+          });
+        },
+        (error) => {
+          this.setState({
+            error,
+          });
+        }
+      );
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div className="row">
+          <div className="col s6">
+            <AddUser onFormSubmit={this.onFormSubmit} />
+            <button
+              className="waves-effect waves-light btn right-align"
+              onClick={() => this.onCreate()}
+            >
+              {this.state.AddBtn}
+            </button>
+            {this.state.error && <div>Error: {this.state.error.message}</div>}
+          </div>
+          <div className="col s6">
+            <h4>Users List</h4>
+            <Users />
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
