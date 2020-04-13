@@ -8,6 +8,7 @@ class AddUser extends Component {
       btnState: true,
     };
     this.initialState = {
+      id: "",
       name: "",
       email: "",
       role: "",
@@ -15,6 +16,11 @@ class AddUser extends Component {
       btnState: true,
       addBtnStr: "Add",
     };
+    if (props.user) {
+      this.state = props.user;
+    } else {
+      this.state = this.initialState;
+    }
     this.state = this.initialState;
 
     this.handleChange = this.handleChange.bind(this);
@@ -87,6 +93,9 @@ class AddUser extends Component {
                 value={this.state.password}
                 onChange={this.handleChange}
               />
+            </div>
+            <div className="row">
+              <input type="hidden" name="id" value={this.state.id} />
             </div>
             <div className="row">
               <button

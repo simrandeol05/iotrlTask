@@ -52,7 +52,10 @@ class Users extends Component {
                   <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>
-                    <button className="waves-effect waves-light btn right-align">
+                    <button
+                      className="waves-effect waves-light btn right-align"
+                      onClick={() => this.props.editUser(user._id)}
+                    >
                       <i className="material-icons">create</i>
                     </button>
                   </td>
