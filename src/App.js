@@ -225,7 +225,7 @@ class App extends Component {
                     <input
                       placeholder="Password"
                       id="password"
-                      type="text"
+                      type="password"
                       name="password"
                       value={this.state.password}
                       onChange={this.handleChange}
