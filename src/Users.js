@@ -1,42 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
 
 class Users extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      users: [],
-    };
-  }
-
-  componentDidMount() {
-    const apiUrl = "https://rademo.fleetconnect.io/apinode/task-users";
-
-    axios
-      .get(apiUrl)
-      .then((response) => response.data)
-      .then(
-        (result) => {
-          this.setState({
-            users: result,
-          });
-        },
-        (error) => {
-          this.setState({ error });
-        }
-      );
-  }
-
-  deleteUser = async (userId) => {
-    let apiEndpoint = "https://rademo.fleetconnect.io/apinode/task-user";
-    await axios.delete(apiEndpoint + "/" + userId);
-    const users = this.state.users.filter((user) => user._id !== userId);
-    this.setState({ users });
-  };
-
   render() {
-    const { error, users } = this.state;
+    const { users, error, deleteUser, editUser } = this.props;
 
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -61,7 +27,7 @@ class Users extends Component {
                   <td>
                     <button
                       className="waves-effect waves-light btn right-align"
-                      onClick={() => this.props.editUser(user._id)}
+                      onClick={() => editUser(user)}
                     >
                       <i className="material-icons">create</i>
                     </button>
@@ -69,7 +35,7 @@ class Users extends Component {
                   <td>
                     <button
                       className="waves-effect waves-light btn right-align"
-                      onClick={() => this.deleteUser(user._id)}
+                      onClick={() => deleteUser(user._id)}
                     >
                       <i className="material-icons">delete</i>
                     </button>
